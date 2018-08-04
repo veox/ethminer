@@ -34,6 +34,10 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #define amd_bitalign(src0, src1, src2) ((uint) (((((ulong)(src0)) << 32) | (ulong)(src1)) >> ((src2) & 31)))
 #endif
 
+#ifdef cl_clang_storage_class_specifiers
+#pragma OPENCL EXTENSION cl_clang_storage_class_specifiers : enable
+#endif
+
 #if WORKSIZE % 4 != 0
 #error "WORKSIZE has to be a multiple of 4"
 #endif
