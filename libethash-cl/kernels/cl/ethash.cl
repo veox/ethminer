@@ -21,6 +21,7 @@
 #define LEGACY
 #endif
 
+// get amd_bitalign from extension, or define manually
 #if defined(cl_amd_media_ops)
 #pragma OPENCL EXTENSION cl_amd_media_ops : enable
 #elif defined(cl_nv_pragma_unroll)
@@ -49,7 +50,7 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #define ROTL64_1(x, y) amd_bitalign((x), (x).s10, 32 - (y))
 #define ROTL64_2(x, y) amd_bitalign((x).s10, (x), 32 - (y))
 
-#else
+#else // #ifdef cl_amd_media_ops
 
 #define ROTL64_1(x, y) as_uint2(rotate(as_ulong(x), (ulong)(y)))
 #define ROTL64_2(x, y) ROTL64_1(x, (y) + 32)
