@@ -34,6 +34,7 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #define amd_bitalign(src0, src1, src2) ((uint) (((((ulong)(src0)) << 32) | (ulong)(src1)) >> ((src2) & 31)))
 #endif
 
+// otherwise keyword `static` is unrecognised on GCN1.1 / Clover / Mesa
 #ifdef cl_clang_storage_class_specifiers
 #pragma OPENCL EXTENSION cl_clang_storage_class_specifiers : enable
 #endif
@@ -53,7 +54,7 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #define ROTL64_1(x, y) as_uint2(rotate(as_ulong(x), (ulong)(y)))
 #define ROTL64_2(x, y) ROTL64_1(x, (y) + 32)
 
-#endif
+#endif // #ifdef cl_amd_media_ops
 
 
 #if WORKSIZE % 4 != 0
