@@ -41,7 +41,8 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #endif
 
 
-#ifdef cl_amd_media_ops
+// GCN1.1 / Clover / Mesa might _still_ have amd_bitalign() undefined
+#if defined(cl_amd_media_ops) && defined(amd_bitalign)
 
 #ifdef LEGACY
 #define barrier(x) mem_fence(x)
@@ -50,12 +51,12 @@ uint amd_bitalign(uint src0, uint src1, uint src2)
 #define ROTL64_1(x, y) amd_bitalign((x), (x).s10, 32 - (y))
 #define ROTL64_2(x, y) amd_bitalign((x).s10, (x), 32 - (y))
 
-#else // #ifdef cl_amd_media_ops
+#else
 
 #define ROTL64_1(x, y) as_uint2(rotate(as_ulong(x), (ulong)(y)))
 #define ROTL64_2(x, y) ROTL64_1(x, (y) + 32)
 
-#endif // #ifdef cl_amd_media_ops
+#endif
 
 
 #if WORKSIZE % 4 != 0
