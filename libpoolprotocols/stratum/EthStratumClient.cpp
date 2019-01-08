@@ -1341,7 +1341,8 @@ void EthStratumClient::processResponse(Json::Value& responseObject)
                     // Only some eth-proxy compatible implementations carry the block number
                     // namely ethermine.org
                     m_current.block = -1;
-                    if (m_conn->StratumMode() == EthStratumClient::ETHPROXY &&
+                    if ((m_conn->StratumMode() == EthStratumClient::STRATUM ||
+                         m_conn->StratumMode() == EthStratumClient::ETHPROXY) &&
                         jPrm.size() > prmIdx &&
                         jPrm.get(Json::Value::ArrayIndex(prmIdx), "").asString().substr(0, 2) ==
                             "0x")
